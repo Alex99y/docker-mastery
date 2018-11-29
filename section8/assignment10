@@ -1,0 +1,4 @@
+docker stack deploy - c docker-compose.yml drupal
+echo "mypass" | docker secret create psql-pw - 
+docker stack deploy -c docker-compose.yml drupal
+docker stack ps drupal
