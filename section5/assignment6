@@ -1,0 +1,4 @@
+// Iniciar contenedor con los siguientes parametros
+docker run -p 80:4000 -v $(pwd):/site bretfisher/jekyll-serve
+// Modificar el archivo cambiandole algun dato y regrescar la pagina localhost:4000
+/site/_post/2017-03-05-welcome-to-jekyll.markdown

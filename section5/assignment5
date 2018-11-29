@@ -1,0 +1,8 @@
+// Crear un nuevo contenedor y asignarle un volumen para almacenar los datos
+docker container run -d --name psql -v psql:/var/lib/postgresql/data postgresql:9.6.1
+// Detener contenedor
+docker container stop 96a
+// Crear un nuevo contenedor igual que el anterior pero mas nuevo y asignarle el volumen previamente creado
+docker container run -d --name psql2 -v psql:/var/lib/postgresql/data postgresql:9.6.2
+// Chequear ambos contenedores el eliminado y el nuevo
+docker container ps -a
