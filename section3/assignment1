@@ -1,0 +1,18 @@
+// Iniciar contenedor mysql
+docker container run -d -p 3306:3306 --name db -e MYSQL_RANDOM_ROOT_PASSWORD=1 mysql
+// Dado que el contenedor se ejecuto en background, hay que ver los logs (o impresiones en stdout)
+docker container logs db
+// Iniciar contenedor apache
+docker container run -d --name webserver -p 8080:80 httpd
+// Iniciar contenedor proxy
+docker container run -d --name server -p 80:80 nginx
+// Chequear los contenedores ejecutandose
+docker container ps
+// Enlistar todos los contenedores
+docker container ls
+// Pausar un contenedor que esta ejecutandose
+docker container stop [contenedor1] [contenedor2] [contenedor3] ...
+// Eliminar un contenedor
+docker container rm
+// Enlistar las imagenes descargadas
+docker image ls

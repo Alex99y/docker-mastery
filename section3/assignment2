@@ -1,0 +1,8 @@
+// Descargar e iniciar contenedor s.o centos y ejecutar bash
+docker container run --rm -it centos:7 bash
+// Chequear la cantidad de procesos ejecutandose en el contenedor
+docker container ps -a
+// Descargar e iniciar el contenedor s.o ubuntu y ejecutar bash
+docker container run --rm -it ubuntu:14.04 bash
+// Chequear la cantidad de procesos totales de los contenedores
+docker container ps -a

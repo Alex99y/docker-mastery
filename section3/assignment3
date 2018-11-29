@@ -1,0 +1,8 @@
+// Crear una nueva red
+docker network create dude
+// Iniciar un contenedor y asignarle la red previamente creada
+docker container run -d --net dude --net-alias search elasticsearch:2
+// Iniciar un contenedor con la aplicación nslookup para encontrar servidores dentro de la red
+docker container run --rm -- net dude alpine nslookup search
+// Iniciar contenedor de centos y hacer la llamada con curl para que encuentre los contenedores de la red y provar que estan conectados los 3 en la misma red y se encuentran por medio del DNS
+docker container run --rm --net dude centos curl -s search:9200
