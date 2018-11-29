@@ -1,0 +1,2 @@
+docker build -t test
+docker container run --rm -p 80:3000 test
