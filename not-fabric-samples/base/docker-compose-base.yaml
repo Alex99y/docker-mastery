@@ -5,34 +5,23 @@
 
 version: '2'
 
-networks:
-  basic:
-
-volumes:
-  orderer.thechain.tech:
-  peer0.thechaindevelopers.thechain.tech:
-  peer1.thechaindevelopers.thechain.tech:
-  peer0.airmedfoundation.thechain.tech:
-  peer1.airmedfoundation.thechain.tech:
-
 services:
 
   orderer.thechain.tech:
     container_name: orderer.thechain.tech
-    image: hyperledger/fabric-orderer:1.3.0
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
-      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_GENERAL_LOGLEVEL=INFO
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_GENESISMETHOD=file
       - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
       - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
       # enabled TLS
-      - ORDERER_GENERAL_TLS_ENABLED=false
+      - ORDERER_GENERAL_TLS_ENABLED=true
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
       - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
       - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
-
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
     volumes:
@@ -42,93 +31,84 @@ services:
     - orderer.thechain.tech:/var/hyperledger/production/orderer
     ports:
       - 7050:7050
-    networks:
-      - basic
 
-  peer0.thechaindevelopers.thechain.tech:
-    container_name: peer0.thechaindevelopers.thechain.tech
+  peer0.alexander.thechain.tech:
+    container_name: peer0.alexander.thechain.tech
     extends:
       file: peer-base.yaml
       service: peer-base
     environment:
-      - CORE_PEER_ID=peer0.thechaindevelopers.thechain.tech
-      - CORE_PEER_ADDRESS=peer0.thechaindevelopers.thechain.tech:7051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.thechaindevelopers.thechain.tech:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.thechaindevelopers.thechain.tech:7051
-      - CORE_PEER_LOCALMSPID=TheChainMSP
+      - CORE_PEER_ID=peer0.alexander.thechain.tech
+      - CORE_PEER_ADDRESS=peer0.alexander.thechain.tech:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.alexander.thechain.tech:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.alexander.thechain.tech:7051
+      - CORE_PEER_LOCALMSPID=AlexanderMSP
     volumes:
         - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/thechaindevelopers.thechain.tech/peers/peer0.thechaindevelopers.thechain.tech/msp:/etc/hyperledger/fabric/msp
-        - ../crypto-config/peerOrganizations/thechaindevelopers.thechain.tech/peers/peer0.thechaindevelopers.thechain.tech/tls:/etc/hyperledger/fabric/tls
-        - peer0.thechaindevelopers.thechain.tech:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/alexander.thechain.tech/peers/peer0.alexander.thechain.tech/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/alexander.thechain.tech/peers/peer0.alexander.thechain.tech/tls:/etc/hyperledger/fabric/tls
+        - peer0.alexander.thechain.tech:/var/hyperledger/production
     ports:
       - 7051:7051
       - 7053:7053
-    networks:
-      - basic
 
-  peer1.thechaindevelopers.thechain.tech:
-    container_name: peer1.thechaindevelopers.thechain.tech
+  peer1.alexander.thechain.tech:
+    container_name: peer1.alexander.thechain.tech
     extends:
       file: peer-base.yaml
       service: peer-base
     environment:
-      - CORE_PEER_ID=peer1.thechaindevelopers.thechain.tech
-      - CORE_PEER_ADDRESS=peer1.thechaindevelopers.thechain.tech:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.thechaindevelopers.thechain.tech:7051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.thechaindevelopers.thechain.tech:7051
-      - CORE_PEER_LOCALMSPID=TheChainMSP
+      - CORE_PEER_ID=peer1.alexander.thechain.tech
+      - CORE_PEER_ADDRESS=peer1.alexander.thechain.tech:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.alexander.thechain.tech:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.alexander.thechain.tech:7051
+      - CORE_PEER_LOCALMSPID=AlexanderMSP
     volumes:
         - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/thechaindevelopers.thechain.tech/peers/peer1.thechaindevelopers.thechain.tech/msp:/etc/hyperledger/fabric/msp
-        - ../crypto-config/peerOrganizations/thechaindevelopers.thechain.tech/peers/peer1.thechaindevelopers.thechain.tech/tls:/etc/hyperledger/fabric/tls
-        - peer1.thechaindevelopers.thechain.tech:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/alexander.thechain.tech/peers/peer1.alexander.thechain.tech/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/alexander.thechain.tech/peers/peer1.alexander.thechain.tech/tls:/etc/hyperledger/fabric/tls
+        - peer1.alexander.thechain.tech:/var/hyperledger/production
+
     ports:
       - 8051:7051
       - 8053:7053
-    networks:
-      - basic
-  
-  peer0.airmedfoundation.thechain.tech:
-    container_name: peer0.airmedfoundation.thechain.tech
+
+  peer0.jesus.thechain.tech:
+    container_name: peer0.jesus.thechain.tech
     extends:
       file: peer-base.yaml
       service: peer-base
     environment:
-      - CORE_PEER_ID=peer0.airmedfoundation.thechain.tech
-      - CORE_PEER_ADDRESS=peer0.airmedfoundation.thechain.tech:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.airmedfoundation.thechain.tech:7051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.airmedfoundation.thechain.tech:7051
-      - CORE_PEER_LOCALMSPID=AirMedFoundationMSP
+      - CORE_PEER_ID=peer0.jesus.thechain.tech
+      - CORE_PEER_ADDRESS=peer0.jesus.thechain.tech:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.jesus.thechain.tech:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.jesus.thechain.tech:7051
+      - CORE_PEER_LOCALMSPID=JesusMSP
     volumes:
         - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/airmedfoundation.thechain.tech/peers/peer0.airmedfoundation.thechain.tech/msp:/etc/hyperledger/fabric/msp
-        - ../crypto-config/peerOrganizations/airmedfoundation.thechain.tech/peers/peer0.airmedfoundation.thechain.tech/tls:/etc/hyperledger/fabric/tls
-        - peer0.airmedfoundation.thechain.tech:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/jesus.thechain.tech/peers/peer0.jesus.thechain.tech/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/jesus.thechain.tech/peers/peer0.jesus.thechain.tech/tls:/etc/hyperledger/fabric/tls
+        - peer0.jesus.thechain.tech:/var/hyperledger/production
     ports:
       - 9051:7051
       - 9053:7053
-    networks:
-      - basic
 
-  peer1.airmedfoundation.thechain.tech:
-    container_name: peer1.airmedfoundation.thechain.tech
+  peer1.jesus.thechain.tech:
+    container_name: peer1.jesus.thechain.tech
     extends:
       file: peer-base.yaml
       service: peer-base
     environment:
-      - CORE_PEER_ID=peer1.airmedfoundation.thechain.tech
-      - CORE_PEER_ADDRESS=peer1.airmedfoundation.thechain.tech:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.airmedfoundation.thechain.tech:7051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.airmedfoundation.thechain.tech:7051
-      - CORE_PEER_LOCALMSPID=AirMedFoundationMSP
+      - CORE_PEER_ID=peer1.jesus.thechain.tech
+      - CORE_PEER_ADDRESS=peer1.jesus.thechain.tech:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.jesus.thechain.tech:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.jesus.thechain.tech:7051
+      - CORE_PEER_LOCALMSPID=JesusMSP
     volumes:
         - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/airmedfoundation.thechain.tech/peers/peer1.airmedfoundation.thechain.tech/msp:/etc/hyperledger/fabric/msp
-        - ../crypto-config/peerOrganizations/airmedfoundation.thechain.tech/peers/peer1.airmedfoundation.thechain.tech/tls:/etc/hyperledger/fabric/tls
-        - peer1.airmedfoundation.thechain.tech:/var/hyperledger/production
+        - ../crypto-config//peerOrganizations/jesus.thechain.tech/peers/peer1.jesus.thechain.tech/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config//peerOrganizations/jesus.thechain.tech/peers/peer1.jesus.thechain.tech/tls:/etc/hyperledger/fabric/tls
+        - peer1.jesus.thechain.tech:/var/hyperledger/production
     ports:
       - 10051:7051
       - 10053:7053
-    networks:
-      - basic

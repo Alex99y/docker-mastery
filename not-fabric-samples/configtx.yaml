@@ -41,15 +41,15 @@ Organizations:
                 Type: Signature
                 Rule: "OR('OrdererMSP.admin')"
 
-    - &TheChain
+    - &Alexander
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: TheChainDevelopers
+        Name: AlexanderMSP
 
         # ID to load the MSP definition as
-        ID: TheChainMSP
+        ID: AlexanderMSP
 
-        MSPDir: crypto-config/peerOrganizations/thechaindevelopers.thechain.tech/msp
+        MSPDir: crypto-config/peerOrganizations/alexander.thechain.tech/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -57,31 +57,31 @@ Organizations:
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('TheChainMSP.admin', 'TheChainMSP.peer', 'TheChainMSP.client')"
+                Rule: "OR('AlexanderMSP.admin', 'AlexanderMSP.peer', 'AlexanderMSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('TheChainMSP.admin', 'TheChainMSP.client')"
+                Rule: "OR('AlexanderMSP.admin', 'AlexanderMSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('TheChainMSP.admin')"
+                Rule: "OR('AlexanderMSP.admin')"
 
         # leave this flag set to true.
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.thechaindevelopers.thechain.tech
+            - Host: peer0.alexander.thechain.tech
               Port: 7051
 
-    - &AirMedFoundation
+    - &Jesus
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: AirMedFoundation
+        Name: JesusMSP
 
         # ID to load the MSP definition as
-        ID: AirMedFoundationMSP
+        ID: JesusMSP
 
-        MSPDir: crypto-config/peerOrganizations/airmedfoundation.thechain.tech/msp
+        MSPDir: crypto-config/peerOrganizations/jesus.thechain.tech/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -89,19 +89,19 @@ Organizations:
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('AirMedFoundationMSP.admin', 'AirMedFoundationMSP.peer', 'AirMedFoundationMSP.client')"
+                Rule: "OR('JesusMSP.admin', 'JesusMSP.peer', 'JesusMSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('AirMedFoundationMSP.admin', 'AirMedFoundationMSP.client')"
+                Rule: "OR('JesusMSP.admin', 'JesusMSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('AirMedFoundationMSP.admin')"
+                Rule: "OR('JesusMSP.admin')"
 
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.airmedfoundation.thechain.tech
+            - Host: peer0.jesus.thechain.tech
               Port: 7051
 
 ################################################################################
@@ -191,8 +191,6 @@ Application: &ApplicationDefaults
             Type: ImplicitMeta
             Rule: "MAJORITY Admins"
 
-    Capabilities:
-        <<: *ApplicationCapabilities
 ################################################################################
 #
 #   SECTION: Orderer
@@ -208,7 +206,7 @@ Orderer: &OrdererDefaults
     OrdererType: solo
 
     Addresses:
-        - thechain.tech:7050
+        - orderer.thechain.tech:7050
 
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s
@@ -310,39 +308,14 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                    - *TheChain
-                    - *AirMedFoundation
+                    - *Alexander
+                    - *Jesus
     TwoOrgsChannel:
         Consortium: SampleConsortium
         Application:
             <<: *ApplicationDefaults
             Organizations:
-                - *TheChain
-                - *AirMedFoundation
+                - *Alexander
+                - *Jesus
             Capabilities:
                 <<: *ApplicationCapabilities
-
-    SampleDevModeKafka:
-        <<: *ChannelDefaults
-        Capabilities:
-            <<: *ChannelCapabilities
-        Orderer:
-            <<: *OrdererDefaults
-            OrdererType: kafka
-            Kafka:
-                Brokers:
-                - kafka.thechain.tech:9092
-
-            Organizations:
-            - *OrdererOrg
-            Capabilities:
-                <<: *OrdererCapabilities
-        Application:
-            <<: *ApplicationDefaults
-            Organizations:
-            - <<: *OrdererOrg
-        Consortiums:
-            SampleConsortium:
-                Organizations:
-                - *TheChain
-                - *AirMedFoundation

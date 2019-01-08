@@ -22,10 +22,10 @@ OrdererOrgs:
 # ---------------------------------------------------------------------------
 PeerOrgs:
   # ---------------------------------------------------------------------------
-  # The Chain
+  # Org1
   # ---------------------------------------------------------------------------
-  - Name: TheChain
-    Domain: thechaindevelopers.thechain.tech
+  - Name: Alexander
+    Domain: alexander.thechain.tech
     EnableNodeOUs: true
     # ---------------------------------------------------------------------------
     # "Specs"
@@ -74,8 +74,8 @@ PeerOrgs:
   # ---------------------------------------------------------------------------
   # Org2: See "Org1" for full specification
   # ---------------------------------------------------------------------------
-  - Name: AirMedFoundation
-    Domain: airmedfoundation.thechain.tech
+  - Name: Jesus
+    Domain: jesus.thechain.tech
     EnableNodeOUs: true
     Template:
       Count: 2
