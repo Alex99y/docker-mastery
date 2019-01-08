@@ -41,11 +41,11 @@ services:
     networks:
       - developerNetwork
 
- peer0.jesus.thechain.tech:
-    container_name:peer0.jesus.thechain.tech
+  peer0.jesus.thechain.tech:
+    container_name: peer0.jesus.thechain.tech
     extends:
       file:  base/docker-compose-base.yaml
-      service:peer0.jesus.thechain.tech
+      service: peer0.jesus.thechain.tech
     networks:
       - developerNetwork
 
