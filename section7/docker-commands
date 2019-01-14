@@ -48,7 +48,7 @@ docker service ps sleepy_brown
 
 docker network create --driver overlay mydrupal
 docker network ls
-docker service create --name psql --netowrk mydrupal -e POSTGRES_PASSWORD=mypass postgres
+docker service create --name psql --network mydrupal -e POSTGRES_PASSWORD=mypass postgres
 docker service ls
 docker service ps psql
 docker container logs psql TAB COMPLETION
